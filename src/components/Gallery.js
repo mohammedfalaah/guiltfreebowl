@@ -7,16 +7,16 @@ export default function Gallery() {
   const sectionRef = useScrollReveal();
 
   return (
-    <section className="section-padding bg-off-white" ref={sectionRef}>
+    <section className="section-padding bg-white" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 reveal">
-          <span className="inline-block text-fresh-green text-sm font-semibold tracking-widest uppercase mb-3">
-            Food Gallery
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-deep-green mb-4 font-heading">
-            Eat With Your Eyes First.
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-deep-green mb-4">
+            Fresh From Our Kitchen
           </h2>
+          <p className="text-main-text/70 text-lg max-w-2xl mx-auto font-sans">
+            Real food, real nutrition, real results.
+          </p>
         </div>
 
         {/* Gallery Grid */}

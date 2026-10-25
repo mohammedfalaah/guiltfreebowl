@@ -5,10 +5,10 @@ import { WHATSAPP_DEFAULT_URL } from "@/data/menuData";
 
 const navLinks = [
   { label: "Home", href: "#home" },
-  { label: "Our Meals", href: "#meals" },
+  { label: "Our Menu", href: "#todays-menu" },
   { label: "Weekly Menu", href: "#weekly-menu" },
-  { label: "Why Guilt Free", href: "#why" },
-  { label: "About", href: "#about" },
+  { label: "Why Guilt Free", href: "#why-guilt-free" },
+  { label: "About Us", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -45,22 +45,22 @@ export default function Header() {
   return (
     <header
       id="main-header"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-off-white/95 backdrop-blur-xl shadow-[0_2px_30px_rgba(11,61,36,0.08)]"
-          : "bg-transparent"
+          ? "bg-warm-cream/95 backdrop-blur-lg shadow-[0_2px_20px_rgba(18,61,39,0.08)]"
+          : "bg-warm-cream"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="flex items-center gap-2 shrink-0">
+          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="flex items-center gap-3 shrink-0">
             <div className="flex flex-col">
-              <span className={`font-heading font-bold text-lg sm:text-xl tracking-tight transition-colors duration-500 ${scrolled ? 'text-deep-green' : 'text-white'}`}>
-                Guilt Free
+              <span className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-deep-green leading-none">
+                Guilt Free Bowls
               </span>
-              <span className={`font-heading text-xs tracking-[0.25em] uppercase -mt-1 transition-colors duration-500 ${scrolled ? 'text-fresh-green' : 'text-accent'}`}>
-                Bowls
+              <span className="font-sans text-xs tracking-widest uppercase text-fresh-green mt-1">
+                Good Food. No Guilt.
               </span>
             </div>
           </a>
@@ -72,8 +72,10 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 hover:bg-deep-green/10 ${
-                  scrolled ? "text-dark-text hover:text-deep-green" : "text-white/90 hover:text-white hover:bg-white/10"
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                  scrolled 
+                    ? "text-main-text hover:text-deep-green hover:bg-sage-green/30" 
+                    : "text-main-text hover:text-deep-green hover:bg-sage-green/30"
                 }`}
               >
                 {link.label}
@@ -87,7 +89,7 @@ export default function Header() {
               href={WHATSAPP_DEFAULT_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-fresh-green hover:bg-forest-green text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-fresh-green/25 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 bg-fresh-green hover:bg-deep-green text-white px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-fresh-green/20 hover:-translate-y-0.5"
             >
               <WhatsAppIcon className="w-4 h-4" />
               Order on WhatsApp
@@ -100,23 +102,21 @@ export default function Header() {
               href={WHATSAPP_DEFAULT_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-fresh-green hover:bg-forest-green text-white px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-300"
+              className="inline-flex items-center gap-1.5 bg-fresh-green hover:bg-deep-green text-white px-4 py-2.5 rounded-full text-xs font-semibold transition-all duration-300"
             >
               <WhatsAppIcon className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Order</span>
             </a>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`p-2 rounded-lg transition-colors duration-300 ${
-                scrolled ? "text-deep-green" : "text-white"
-              }`}
+              className="p-2 rounded-lg text-deep-green transition-colors duration-300"
               aria-label="Toggle menu"
               id="mobile-menu-toggle"
             >
               <div className="w-5 h-4 flex flex-col justify-between">
-                <span className={`block h-0.5 rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-1.5" : ""} ${scrolled ? "bg-deep-green" : "bg-white"}`} />
-                <span className={`block h-0.5 rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""} ${scrolled ? "bg-deep-green" : "bg-white"}`} />
-                <span className={`block h-0.5 rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""} ${scrolled ? "bg-deep-green" : "bg-white"}`} />
+                <span className={`block h-0.5 bg-deep-green rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-1.5" : ""}`} />
+                <span className={`block h-0.5 bg-deep-green rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+                <span className={`block h-0.5 bg-deep-green rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
               </div>
             </button>
           </div>
@@ -131,7 +131,7 @@ export default function Header() {
       >
         <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
         <div
-          className={`relative bg-off-white shadow-2xl transition-all duration-500 ${
+          className={`relative bg-warm-cream shadow-2xl transition-all duration-500 ${
             mobileOpen ? "translate-y-0" : "-translate-y-4"
           }`}
         >
@@ -141,17 +141,17 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="px-4 py-3.5 text-base font-medium text-dark-text hover:text-deep-green hover:bg-light-sage/50 rounded-xl transition-all duration-300"
+                className="px-4 py-3.5 text-base font-medium text-main-text hover:text-deep-green hover:bg-sage-green/50 rounded-xl transition-all duration-300"
               >
                 {link.label}
               </a>
             ))}
-            <div className="mt-4 pt-4 border-t border-light-sage">
+            <div className="mt-4 pt-4 border-t border-sage-green">
               <a
                 href={WHATSAPP_DEFAULT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-fresh-green hover:bg-forest-green text-white px-6 py-3.5 rounded-full text-base font-semibold transition-all duration-300"
+                className="flex items-center justify-center gap-2 bg-fresh-green hover:bg-deep-green text-white px-6 py-3.5 rounded-full text-base font-semibold transition-all duration-300"
               >
                 <WhatsAppIcon className="w-5 h-5" />
                 Order on WhatsApp

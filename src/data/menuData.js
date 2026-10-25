@@ -3,241 +3,353 @@ export const WHATSAPP_NUMBER = "919048496198";
 export const BRAND_NAME = "Guilt Free Bowls";
 
 // ===== WHATSAPP URL GENERATOR =====
-export function generateWhatsAppUrl(mealName, category, day) {
-  const message = `Hi ${BRAND_NAME} 👋\n\nI would like to order:\n\nMeal: ${mealName}\nCategory: ${category}\nDay: ${day}\n\nPlease share the price and availability.`;
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+export function orderMeal({ day, category, mealName, mealDetails }) {
+  const messageParts = [
+    `Hi ${BRAND_NAME}! 👋`,
+    "",
+    `I'd like to order the ${day} ${category.toLowerCase()} meal.`,
+    ""
+  ];
+
+  if (mealDetails) {
+    messageParts.push(`Menu: ${mealDetails}`);
+  } else {
+    messageParts.push(`Meal: ${mealName}`);
+  }
+
+  messageParts.push(
+    "",
+    "Please share the price, availability, and delivery details.",
+    "",
+    "Thank you!"
+  );
+
+  const message = messageParts.join("\n");
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
 export function generateSimpleWhatsAppUrl(text) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
-export const WHATSAPP_DEFAULT_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Guilt Free Bowls 👋\n\nI would like to know more about your meals and meal plans.\n\nThank you!")}`;
+export const WHATSAPP_DEFAULT_URL = generateSimpleWhatsAppUrl(
+  "Hi Guilt Free Bowls! I'd like to know more about your menu and meal options."
+);
+
+export const WHATSAPP_DELIVERY_URL = generateSimpleWhatsAppUrl(
+  "Hi Guilt Free Bowls! I would like to know whether delivery is available in my area. Please share your delivery areas and charges."
+);
+
+// ===== MEAL TIMES =====
+export const MEAL_TIMES = {
+  breakfast: "7:00 AM – 9:00 AM",
+  lunch: "12:00 PM – 2:00 PM",
+  dinner: "7:00 PM – 9:00 PM"
+};
 
 // ===== WEEKLY MENU DATA =====
+// Based on the menu posters provided
 export const weeklyMenu = [
   {
     day: "Monday",
     short: "MON",
     breakfast: {
-      name: "Avocado Apple Smoothie Bowl",
-      image: "/images/smoothie-bowl.png",
-      description: "Creamy, nutritious and a perfect start to your day.",
+      name: "Chicken Chappathi Roll",
+      image: "/images/chicken-wrap.png",
+      description: "Wholesome chappathi wrapped with tender chicken and fresh vegetables.",
       category: "Breakfast",
+      isVeg: false,
+      time: MEAL_TIMES.breakfast
     },
     lunch: {
-      name: "Sweet Corn Rice",
+      name: "Green Egg Rice",
+      details: "Green Egg Rice, Chicken Tikka, Chickpea Salad, Fruits & Nuts",
       image: "/images/sweet-corn-rice.png",
-      description: "Balanced, wholesome and satisfying with garlic chicken and sauteed veggies.",
+      description: "Fragrant green rice with succulent chicken tikka, protein-rich chickpea salad, and fresh fruits.",
       category: "Lunch",
+      isVeg: false,
+      time: MEAL_TIMES.lunch
     },
     dinner: {
-      name: "Sautéed Chicken Vegetable Bowl",
+      name: "Sautéed Vegetables with Chicken",
+      details: "Sautéed Vegetables with Chicken, Oats Alfredo Sauce",
       image: "/images/chicken-veg-bowl.png",
-      description: "Tender chicken with colorful sauteed vegetables in a light sauce.",
+      description: "Tender chicken with colorful vegetables in a creamy oats alfredo sauce.",
       category: "Dinner",
-    },
+      isVeg: false,
+      time: MEAL_TIMES.dinner
+    }
   },
   {
     day: "Tuesday",
     short: "TUE",
     breakfast: {
-      name: "Chicken Egg Veg Wrap",
-      image: "/images/chicken-wrap.png",
-      description: "Simple, nutritious and protein-packed to fuel your morning.",
+      name: "Creamy Chicken Mushroom Oats",
+      image: "/images/overnight-oats.png",
+      description: "Savory oats with tender chicken and mushrooms for a hearty start.",
       category: "Breakfast",
+      isVeg: false,
+      time: MEAL_TIMES.breakfast
     },
     lunch: {
-      name: "Green Egg Rice",
+      name: "Pineapple Rice",
+      details: "Pineapple Rice, Pepper Chicken, Sprout Salad, Egg, Fruits & Nuts",
       image: "/images/sweet-corn-rice.png",
-      description: "Fragrant green rice with lemon pepper chicken and fresh sides.",
+      description: "Sweet and tangy pineapple rice paired with spicy pepper chicken and nutritious sprouts.",
       category: "Lunch",
+      isVeg: false,
+      time: MEAL_TIMES.lunch
     },
     dinner: {
-      name: "Quinoa Chicken Salad Bowl",
+      name: "Sweet Potato Chicken Salad",
       image: "/images/quinoa-salad.png",
-      description: "Fresh vegetables, quinoa and tender chicken for a lighter evening.",
+      description: "Roasted sweet potato with grilled chicken in a light, refreshing salad.",
       category: "Dinner",
-    },
+      isVeg: false,
+      time: MEAL_TIMES.dinner
+    }
   },
   {
     day: "Wednesday",
     short: "WED",
     breakfast: {
-      name: "Carrot Overnight Oats",
-      image: "/images/overnight-oats.png",
-      description: "Creamy, nutritious and naturally sweet.",
+      name: "Apple Avocado Smoothie Bowl",
+      image: "/images/smoothie-bowl.png",
+      description: "Creamy, naturally sweet and packed with good fats for sustained energy.",
       category: "Breakfast",
+      isVeg: true,
+      time: MEAL_TIMES.breakfast
     },
     lunch: {
-      name: "Chama Fried Rice + Chicken Fry",
+      name: "Little Millet Chicken Fried Rice",
+      details: "Little Millet Chicken Fried Rice, Cowpea Salad, Boiled Egg, Fruits & Nuts",
       image: "/images/sweet-corn-rice.png",
-      description: "Wholesome grains with flavourful chicken and fresh sides.",
+      description: "Wholesome little millet fried rice with chicken, protein-rich cowpea salad, and boiled egg.",
       category: "Lunch",
+      isVeg: false,
+      time: MEAL_TIMES.lunch
     },
     dinner: {
-      name: "Mediterranean Chicken Chickpea Salad",
+      name: "Chicken Pineapple Salad",
       image: "/images/mediterranean-salad.png",
-      description: "Fresh, colourful and protein-rich.",
+      description: "Fresh, tropical and full of flavour with grilled chicken and juicy pineapple.",
       category: "Dinner",
-    },
+      isVeg: false,
+      time: MEAL_TIMES.dinner
+    }
   },
   {
     day: "Thursday",
     short: "THU",
     breakfast: {
-      name: "Oats Omelet Chicken Wrap",
-      image: "/images/chicken-wrap.png",
-      description: "Protein-packed wrap with oats omelet and tender chicken.",
+      name: "Kulfi Overnight Oats",
+      image: "/images/overnight-oats.png",
+      description: "Creamy overnight oats with traditional kulfi flavours. A sweet, satisfying start.",
       category: "Breakfast",
+      isVeg: true,
+      time: MEAL_TIMES.breakfast
     },
     lunch: {
-      name: "Mushroom Pulav",
-      image: "/images/mushroom-pulav.png",
-      description: "Fragrant basmati rice with sauteed mushrooms and aromatic spices.",
+      name: "Lemon Rice",
+      details: "Lemon Rice, Malai Chicken, Sautéed Vegetables, Fruits & Nuts",
+      image: "/images/sweet-corn-rice.png",
+      description: "Tangy lemon rice with creamy malai chicken and a medley of sautéed vegetables.",
       category: "Lunch",
+      isVeg: false,
+      time: MEAL_TIMES.lunch
     },
     dinner: {
-      name: "Ragi Chicken Corn Soup",
-      image: "/images/chicken-veg-bowl.png",
-      description: "Warm, comforting and nutritious with ragi goodness.",
+      name: "Oats Omelet Chicken Wrap",
+      image: "/images/chicken-wrap.png",
+      description: "Protein-packed wrap with oats omelet and tender chicken pieces.",
       category: "Dinner",
-    },
+      isVeg: false,
+      time: MEAL_TIMES.dinner
+    }
   },
   {
     day: "Friday",
     short: "FRI",
     breakfast: {
-      name: "Peanut Butter Overnight Oats",
-      image: "/images/overnight-oats.png",
-      description: "Creamy, nutritious and the perfect start to your day.",
+      name: "Tender Coconut Chia Pudding",
+      image: "/images/fruit-yogurt-bowl.png",
+      description: "Light, refreshing and naturally hydrating with omega-3 rich chia seeds.",
       category: "Breakfast",
+      isVeg: true,
+      time: MEAL_TIMES.breakfast
     },
     lunch: {
-      name: "No Oil Chicken Biriyani",
+      name: "No Oil Mandi",
+      details: "No Oil Mandi, Sweetcorn Salad, Fruits & Nuts",
       image: "/images/chicken-biriyani.png",
-      description: "Rich in flavour, lighter on oil. All the taste, none of the guilt.",
+      description: "Aromatic mandi rice prepared without oil, served with crunchy sweetcorn salad.",
       category: "Lunch",
+      isVeg: false,
+      time: MEAL_TIMES.lunch
     },
     dinner: {
-      name: "Sprout Salad Plate",
-      image: "/images/sprout-salad.png",
-      description: "Light, clean and good for a better you.",
+      name: "Chicken Millet Pasta",
+      image: "/images/chicken-veg-bowl.png",
+      description: "Wholesome millet pasta tossed with tender chicken in a light sauce.",
       category: "Dinner",
-    },
+      isVeg: false,
+      time: MEAL_TIMES.dinner
+    }
   },
   {
     day: "Saturday",
     short: "SAT",
     breakfast: {
-      name: "Fruit Yogurt Bowl",
+      name: "Mango Yogurt Parfait Bowl",
       image: "/images/fruit-yogurt-bowl.png",
-      description: "Fresh seasonal fruits with creamy yogurt and crunchy granola.",
+      description: "Fresh mango layered with creamy yogurt and crunchy toppings.",
       category: "Breakfast",
+      isVeg: true,
+      time: MEAL_TIMES.breakfast
     },
     lunch: {
-      name: "Pineapple Rice, Hariyali Chicken & Black Chana Salad",
+      name: "Mixed Herb Rice",
+      details: "Mixed Herb Rice, Chicken Shakkani, Chickpea Salad, Boiled Egg, Fruits & Nuts",
       image: "/images/sweet-corn-rice.png",
-      description: "A vibrant trio of flavours for a satisfying weekend lunch.",
+      description: "Fragrant herb-infused rice with chicken shakkani, chickpea salad, and boiled egg.",
       category: "Lunch",
+      isVeg: false,
+      time: MEAL_TIMES.lunch
     },
     dinner: {
-      name: "Healthy Shawarma (Chicken Roll)",
-      image: "/images/healthy-shawarma.png",
-      description: "All the flavour. None of the guilt. A perfect weekend treat.",
+      name: "Sprout Salad with Egg",
+      image: "/images/sprout-salad.png",
+      description: "Fresh sprouts with boiled egg, vegetables, and a tangy dressing.",
       category: "Dinner",
-    },
-  },
-];
-
-// ===== FEATURED MEALS =====
-export const featuredMeals = [
-  {
-    name: "Apple Avocado Smoothie Bowl",
-    image: "/images/smoothie-bowl.png",
-    description: "Creamy, fresh and naturally nourishing.",
-    type: "Breakfast",
-  },
-  {
-    name: "Chicken Egg Veg Wrap",
-    image: "/images/chicken-wrap.png",
-    description: "Simple, nutritious and protein-packed.",
-    type: "Breakfast",
-  },
-  {
-    name: "Quinoa Chicken Salad",
-    image: "/images/quinoa-salad.png",
-    description: "Fresh vegetables, quinoa and tender chicken.",
-    type: "Salad",
-  },
-  {
-    name: "No Oil Chicken Biriyani",
-    image: "/images/chicken-biriyani.png",
-    description: "Rich in flavour, lighter on oil.",
-    type: "Lunch",
-  },
-  {
-    name: "Healthy Shawarma",
-    image: "/images/healthy-shawarma.png",
-    description: "All the flavour. None of the guilt.",
-    type: "Dinner",
-  },
+      isVeg: false,
+      time: MEAL_TIMES.dinner
+    }
+  }
 ];
 
 // ===== BENEFITS =====
 export const benefits = [
   {
-    icon: "leaf",
+    icon: "Leaf",
     title: "Fresh Ingredients",
-    description: "Freshly prepared meals using quality ingredients.",
+    description: "Thoughtfully sourced ingredients prepared fresh for every meal.",
   },
   {
-    icon: "dumbbell",
-    title: "High Protein",
-    description: "Balanced meals designed with protein and nutrition in mind.",
+    icon: "Scale",
+    title: "Balanced Meals",
+    description: "Carefully portioned to bring nutrition and satisfaction together.",
   },
   {
-    icon: "salad",
-    title: "Balanced Nutrition",
-    description: "Thoughtfully portioned meals for everyday wellness.",
+    icon: "Heart",
+    title: "Homemade-Style Goodness",
+    description: "Healthy food that tastes like it's made with care, because it is.",
   },
   {
-    icon: "heart",
-    title: "Made With Care",
-    description: "Healthy food prepared with attention to quality and taste.",
+    icon: "Truck",
+    title: "Convenient Local Delivery",
+    description: "Fresh meals delivered right to your door in Perinthalmanna.",
   },
 ];
 
 // ===== GALLERY IMAGES =====
 export const galleryImages = [
-  { src: "/images/hero-bowl.png", alt: "Premium healthy bowl", overlay: "Eat Clean." },
-  { src: "/images/smoothie-bowl.png", alt: "Smoothie bowl", overlay: null },
-  { src: "/images/chicken-wrap.png", alt: "Healthy chicken wrap", overlay: "Feel Great." },
-  { src: "/images/sweet-corn-rice.png", alt: "Meal prep container", overlay: null },
-  { src: "/images/quinoa-salad.png", alt: "Quinoa chicken salad", overlay: null },
-  { src: "/images/overnight-oats.png", alt: "Overnight oats", overlay: "Good Food. Brighter Days." },
-  { src: "/images/chicken-biriyani.png", alt: "Healthy biriyani", overlay: null },
-  { src: "/images/mediterranean-salad.png", alt: "Mediterranean salad", overlay: null },
+  { 
+    src: "/images/hero-bowl.png", 
+    alt: "Healthy meal bowl with fresh ingredients", 
+    overlay: "Good Food. Brighter Days.",
+    size: "large"
+  },
+  { 
+    src: "/images/smoothie-bowl.png", 
+    alt: "Apple avocado smoothie bowl", 
+    overlay: null,
+    size: "regular"
+  },
+  { 
+    src: "/images/chicken-wrap.png", 
+    alt: "Healthy chicken wrap", 
+    overlay: "Fresh From Our Kitchen.",
+    size: "regular"
+  },
+  { 
+    src: "/images/sweet-corn-rice.png", 
+    alt: "Sweet corn rice meal", 
+    overlay: null,
+    size: "regular"
+  },
+  { 
+    src: "/images/quinoa-salad.png", 
+    alt: "Quinoa chicken salad bowl", 
+    overlay: null,
+    size: "wide"
+  },
+  { 
+    src: "/images/overnight-oats.png", 
+    alt: "Overnight oats with toppings", 
+    overlay: "Eat Healthy. Live Guilt Free.",
+    size: "regular"
+  },
+  { 
+    src: "/images/chicken-biriyani.png", 
+    alt: "No oil chicken biryani", 
+    overlay: null,
+    size: "regular"
+  },
+  { 
+    src: "/images/mediterranean-salad.png", 
+    alt: "Fresh Mediterranean salad", 
+    overlay: null,
+    size: "regular"
+  },
 ];
 
-// ===== MEAL PLANS =====
-export const mealPlans = [
+// ===== HOW IT WORKS STEPS =====
+export const howItWorksSteps = [
   {
-    title: "Daily Meals",
-    description: "Fresh, balanced meals delivered to your door every day.",
-    icon: "sun",
-    features: ["Breakfast, Lunch & Dinner", "Freshly prepared daily", "Balanced nutrition"],
+    number: "01",
+    title: "Explore the Menu",
+    description: "Find breakfast, lunch or dinner for your preferred day."
   },
   {
-    title: "Weekly Plans",
-    description: "Plan your entire week of healthy eating in advance.",
-    icon: "calendar",
-    features: ["6-day meal plan", "Variety every day", "Hassle-free healthy eating"],
+    number: "02",
+    title: "Tap to WhatsApp",
+    description: "Your selected meal is automatically included in the message."
   },
   {
-    title: "Custom Meal Plans",
-    description: "Meals tailored to your preferences and dietary needs.",
-    icon: "sparkle",
-    features: ["Personalised menus", "Dietary preferences", "Flexible scheduling"],
-  },
+    number: "03",
+    title: "Confirm and Enjoy",
+    description: "Confirm the price, availability, and delivery details with Guilt Free Bowls."
+  }
 ];
+
+// ===== HELPER FUNCTIONS =====
+export function getTodaysDayName() {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const today = new Date().getDay();
+  return days[today];
+}
+
+export function getCurrentDayMenu() {
+  const today = getTodaysDayName();
+  return weeklyMenu.find(menu => menu.day === today) || null;
+}
+
+export function getVegetarianMeals() {
+  const vegMeals = [];
+  
+  weeklyMenu.forEach(dayMenu => {
+    if (dayMenu.breakfast.isVeg) {
+      vegMeals.push({ ...dayMenu.breakfast, day: dayMenu.day });
+    }
+    if (dayMenu.lunch.isVeg) {
+      vegMeals.push({ ...dayMenu.lunch, day: dayMenu.day });
+    }
+    if (dayMenu.dinner.isVeg) {
+      vegMeals.push({ ...dayMenu.dinner, day: dayMenu.day });
+    }
+  });
+  
+  return vegMeals;
+}

@@ -2,31 +2,38 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { weeklyMenu, generateWhatsAppUrl } from "@/data/menuData";
+import { weeklyMenu, orderMeal } from "@/data/menuData";
 
 export default function WeeklyMenu() {
   const [activeDay, setActiveDay] = useState(0);
   const sectionRef = useScrollReveal();
   const menu = weeklyMenu[activeDay];
 
+  const handleMealOrder = (meal, category) => {
+    const mealDetails = meal.details || meal.name;
+    orderMeal({
+      day: menu.day,
+      category: category,
+      mealName: meal.name,
+      mealDetails
+    });
+  };
+
   const mealCategories = [
-    { key: "breakfast", label: "Breakfast", icon: "☀️", color: "bg-amber-50 border-amber-200" },
-    { key: "lunch", label: "Lunch", icon: "🍽️", color: "bg-green-50 border-green-200", orderable: true },
-    { key: "dinner", label: "Dinner", icon: "🌙", color: "bg-indigo-50 border-indigo-200" },
+    { key: "breakfast", label: "Breakfast", icon: "☀️", color: "bg-mustard-yellow/20 border-mustard-yellow/40" },
+    { key: "lunch", label: "Lunch", icon: "🍽️", color: "bg-soft-peach/30 border-soft-peach" },
+    { key: "dinner", label: "Dinner", icon: "🌙", color: "bg-sage-green/40 border-sage-green" },
   ];
 
   return (
-    <section id="weekly-menu" className="section-padding bg-off-white" ref={sectionRef}>
+    <section id="weekly-menu" className="section-padding bg-warm-cream" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 reveal">
-          <span className="inline-block text-fresh-green text-sm font-semibold tracking-widest uppercase mb-3">
-            Weekly Menu
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-deep-green mb-4 font-heading">
-            This Week&apos;s Menu
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-deep-green mb-4">
+            Your Week, Made Healthier.
           </h2>
-          <p className="text-dark-text/60 text-lg max-w-xl mx-auto">
+          <p className="text-main-text/70 text-lg sm:text-xl max-w-2xl mx-auto font-sans">
             A different delicious way to eat healthy every day.
           </p>
         </div>
@@ -47,8 +54,8 @@ export default function WeeklyMenu() {
         </div>
 
         {/* Day Label */}
-        <div className="reveal text-center mb-8">
-          <h3 className="text-2xl sm:text-3xl font-bold text-deep-green font-heading">
+        <div className="reveal text-center mb-10">
+          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-deep-green">
             {menu.day}
           </h3>
         </div>
@@ -57,13 +64,11 @@ export default function WeeklyMenu() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {mealCategories.map((cat) => {
             const meal = menu[cat.key];
-            const isOrderable = cat.orderable;
-            const whatsappUrl = generateWhatsAppUrl(meal.name, cat.label, menu.day);
 
             return (
               <div
                 key={cat.key}
-                className={`reveal premium-card overflow-hidden ${isOrderable ? "ring-2 ring-fresh-green/30 ring-offset-2" : ""}`}
+                className="reveal premium-card overflow-hidden"
                 id={`menu-${menu.day.toLowerCase()}-${cat.key}`}
               >
                 {/* Meal Image */}
@@ -78,72 +83,79 @@ export default function WeeklyMenu() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
                   {/* Category Badge */}
-                  <div className="absolute top-4 left-4 flex items-center gap-2">
+                  <div className="absolute top-4 left-4">
                     <span className={`${cat.color} border backdrop-blur-sm text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5`}>
                       <span>{cat.icon}</span>
                       {cat.label}
                     </span>
                   </div>
 
-                  {/* Orderable indicator */}
-                  {isOrderable && (
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-fresh-green text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                        Order Now
-                      </span>
-                    </div>
-                  )}
+                  {/* Veg/Non-Veg Indicator */}
+                  <div className="absolute top-4 right-4">
+                    {meal.isVeg ? (
+                      <div className="bg-white rounded-lg px-2.5 py-1.5 shadow-md flex items-center gap-1.5">
+                        <span className="veg-indicator scale-75" />
+                        <span className="text-[10px] font-bold text-green-700">VEG</span>
+                      </div>
+                    ) : (
+                      <div className="bg-white rounded-lg px-2.5 py-1.5 shadow-md flex items-center gap-1.5">
+                        <span className="non-veg-indicator scale-75" />
+                        <span className="text-[10px] font-bold text-red-700">NON-VEG</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
-                  <h4 className="text-lg font-bold text-deep-green mb-2 font-heading leading-snug">
+                  <h4 className="font-serif text-lg font-bold text-deep-green mb-2 leading-snug">
                     {meal.name}
                   </h4>
-                  <p className="text-dark-text/55 text-sm leading-relaxed mb-5">
+                  
+                  {meal.details && meal.details !== meal.name && (
+                    <p className="text-fresh-green text-xs font-medium mb-2">
+                      {meal.details}
+                    </p>
+                  )}
+                  
+                  <p className="text-main-text/60 text-sm leading-relaxed mb-5">
                     {meal.description}
                   </p>
 
-                  {isOrderable ? (
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-fresh-green hover:bg-forest-green text-white py-3 rounded-xl text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-fresh-green/20"
-                      id={`order-${menu.day.toLowerCase()}-lunch`}
-                    >
-                      <WhatsAppIcon className="w-4 h-4" />
-                      Order {menu.day} Lunch
-                    </a>
-                  ) : (
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full border-2 border-light-sage hover:border-fresh-green text-forest-green py-3 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-light-sage/30"
-                    >
-                      <WhatsAppIcon className="w-4 h-4" />
-                      Order on WhatsApp
-                    </a>
-                  )}
+                  <button
+                    onClick={() => handleMealOrder(meal, cat.label)}
+                    className="flex items-center justify-center gap-2 w-full bg-fresh-green hover:bg-deep-green text-white py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-fresh-green/20"
+                    id={`order-${menu.day.toLowerCase()}-${cat.key}`}
+                  >
+                    <WhatsAppIcon className="w-4 h-4" />
+                    Order This Meal
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Free delivery badge */}
-        <div className="reveal mt-10 text-center">
-          <div className="inline-flex items-center gap-3 bg-light-sage/50 rounded-full px-6 py-3">
-            <span className="text-lg">🚚</span>
-            <span className="text-sm font-semibold text-forest-green">
-              Free Delivery on All Orders
-            </span>
-            <span className="text-lg">•</span>
-            <span className="text-sm text-dark-text/60">
-              Call or WhatsApp: 9048496198
-            </span>
-          </div>
+        {/* View Full Menu CTA */}
+        <div className="reveal mt-12 text-center">
+          <a
+            href="#todays-menu"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.querySelector("#todays-menu");
+              if (el) {
+                const offset = 80;
+                const y = el.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top: y, behavior: "smooth" });
+              }
+            }}
+            className="inline-flex items-center gap-2 text-fresh-green font-semibold hover:text-deep-green transition-colors text-lg"
+          >
+            View Full Weekly Menu
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>

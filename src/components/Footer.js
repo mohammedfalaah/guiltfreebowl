@@ -14,9 +14,9 @@ export default function Footer() {
 
   const footerLinks = [
     { label: "Home", href: "#home" },
-    { label: "Menu", href: "#meals" },
+    { label: "Today's Menu", href: "#todays-menu" },
     { label: "Weekly Menu", href: "#weekly-menu" },
-    { label: "Meal Plans", href: "#why" },
+    { label: "Why Guilt Free", href: "#why-guilt-free" },
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ];
@@ -40,7 +40,7 @@ export default function Footer() {
               Good Food. No Guilt.
             </p>
             <p className="text-white/40 text-sm leading-relaxed">
-              Fresh, balanced meals crafted to make healthy eating simple and delicious. Serving Perinthalmanna, Kerala.
+              Perinthalmanna, Malappuram, Kerala.
             </p>
           </div>
 
@@ -99,8 +99,8 @@ export default function Footer() {
             <p className="text-white/30 text-xs">
               © {new Date().getFullYear()} Guilt Free Bowls. All rights reserved.
             </p>
-            <p className="text-white/40 text-xs tracking-[0.2em] uppercase font-heading font-medium">
-              Real Food &nbsp;|&nbsp; Real Nutrition &nbsp;|&nbsp; A Healthier You
+            <p className="text-white/40 text-xs font-sans">
+              Real Food. Real Nutrition. A Healthier You.
             </p>
           </div>
         </div>
