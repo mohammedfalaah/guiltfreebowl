@@ -17,6 +17,8 @@ export function orderMeal({ day, category, mealName, mealDetails }) {
     messageParts.push(`Meal: ${mealName}`);
   }
 
+
+
   messageParts.push(
     "",
     "Please share the price, availability, and delivery details.",

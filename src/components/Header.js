@@ -56,7 +56,7 @@ export default function Header() {
           {/* Logo */}
           <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="flex items-center shrink-0">
             <Image
-              src="/images/logo.png"
+              src="/images/image.png"
               alt="Guilt Free Bowls - Good Food. No Guilt."
               width={200}
               height={70}
