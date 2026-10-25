@@ -54,15 +54,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="flex items-center gap-3 shrink-0">
-            <div className="flex flex-col">
-              <span className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-deep-green leading-none">
-                Guilt Free Bowls
-              </span>
-              <span className="font-sans text-xs tracking-widest uppercase text-fresh-green mt-1">
-                Good Food. No Guilt.
-              </span>
-            </div>
+          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="flex items-center shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="Guilt Free Bowls - Good Food. No Guilt."
+              width={200}
+              height={70}
+              priority
+              className="h-14 sm:h-16 w-auto object-contain"
+            />
           </a>
 
           {/* Desktop Nav */}
